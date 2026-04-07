@@ -1,0 +1,19 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow-sm border border-gray-100 rounded-xl p-8 mt-10">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Welcome Back</h2>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="space-y-4 [&>p]:flex [&>p]:flex-col [&>p>label]:text-sm [&>p>label]:font-semibold [&>p>label]:text-gray-700 [&>p>label]:mb-1 [&>p>input]:block [&>p>input]:w-full [&>p>input]:rounded-md [&>p>input]:border-gray-300 [&>p>input]:shadow-sm [&>p>input]:focus:border-blue-500 [&>p>input]:focus:ring-blue-500 [&>p>input]:sm:text-sm [&>p>input]:p-2.5 [&>p>input]:border [&>p>ul]:text-sm [&>p>ul]:text-red-500">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-6 transition-colors">
+            Login
+        </button>
+    </form>
+    <div class="mt-6 text-center text-sm text-gray-600">
+        Don't have an account? <a href="{% url 'signup' %}" class="font-medium text-blue-600 hover:text-blue-500">Sign Up here</a>
+    </div>
+</div>
+{% endblock %}
