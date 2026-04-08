@@ -1,19 +1,25 @@
 {% extends 'users/base.html' %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white shadow-sm border border-gray-100 rounded-xl p-8 mt-10">
-    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Create Account</h2>
-    <form method="post" class="space-y-4">
-        {% csrf_token %}
-        <div class="space-y-4 [&>p]:flex [&>p]:flex-col [&>p>label]:text-sm [&>p>label]:font-semibold [&>p>label]:text-gray-700 [&>p>label]:mb-1 [&>p>input]:block [&>p>input]:w-full [&>p>input]:rounded-md [&>p>input]:border-gray-300 [&>p>input]:shadow-sm [&>p>input]:focus:border-blue-500 [&>p>input]:focus:ring-blue-500 [&>p>input]:sm:text-sm [&>p>input]:p-2.5 [&>p>input]:border [&>p>ul]:text-sm [&>p>ul]:text-red-500">
-            {{ form.as_p }}
+<div class="max-w-md mx-auto backdrop-blur-xl bg-slate-900/60 shadow-2xl shadow-cyan-900/20 border border-slate-700/50 rounded-2xl p-8 mt-10 relative overflow-hidden group">
+    <!-- Decorative glow -->
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500"></div>
+    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
+    
+    <div class="relative z-10">
+        <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 mb-8 text-center tracking-tight">Create Account</h2>
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
+            <div class="space-y-5 [&>p]:flex [&>p]:flex-col [&>p>label]:text-sm [&>p>label]:font-medium [&>p>label]:text-slate-300 [&>p>label]:mb-1.5 [&>p>input]:block [&>p>input]:w-full [&>p>input]:rounded-xl [&>p>input]:bg-slate-800/50 [&>p>input]:border-slate-700 [&>p>input]:text-white [&>p>input]:shadow-inner [&>p>input]:focus:border-cyan-500 [&>p>input]:focus:ring-2 [&>p>input]:focus:ring-cyan-500/50 [&>p>input]:focus:bg-slate-800 [&>p>input]:transition-all [&>p>input]:sm:text-sm [&>p>input]:p-3 [&>p>input]:border [&>p>ul]:text-sm [&>p>ul]:text-red-400 [&>p>ul]:mt-1">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.4)] text-sm font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-cyan-500 mt-8 transition-all duration-300 transform hover:-translate-y-0.5">
+                Join Recursion
+            </button>
+        </form>
+        <div class="mt-8 text-center text-sm text-slate-400 font-medium">
+            Already have an account? <a href="{% url 'login' %}" class="font-bold text-cyan-400 hover:text-cyan-300 hover:underline underline-offset-4 transition-all">Login here</a>
         </div>
-        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mt-6 transition-colors">
-            Sign Up
-        </button>
-    </form>
-    <div class="mt-6 text-center text-sm text-gray-600">
-        Already have an account? <a href="{% url 'login' %}" class="font-medium text-blue-600 hover:text-blue-500">Login here</a>
     </div>
 </div>
 {% endblock %}

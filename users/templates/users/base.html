@@ -6,45 +6,66 @@
     <title>Recursion by RSCOE</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Minimal custom tweaks */
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: #0f172a; /* slate-900 */
+            color: #f8fafc;
+            background-image: radial-gradient(circle at top right, rgba(56, 189, 248, 0.08), transparent 40%), radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent 40%);
+            background-attachment: fixed;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .blink { animation: blink 1s step-end infinite; }
     </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col">
-    <header class="bg-gray-900 border-b border-gray-800">
+<body class="antialiased min-h-screen flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
+    <!-- Floating Navbar -->
+    <header class="sticky top-0 z-50 py-4 transition-all duration-300">
         <div class="container mx-auto px-4 max-w-6xl">
-            <nav class="flex items-center justify-between h-16">
-                <a href="{% url 'quiz_list' %}" class="text-xl font-bold text-white tracking-tight">Recursion<span class="text-blue-500">_</span></a>
-                <div class="flex items-center space-x-4 md:space-x-6 text-sm text-gray-300">
+            <nav class="backdrop-blur-xl bg-slate-900/60 border border-slate-700/50 shadow-2xl shadow-cyan-900/10 rounded-2xl flex items-center justify-between h-16 px-6">
+                <a href="{% url 'quiz_list' %}" class="text-2xl font-extrabold text-white tracking-tight flex items-center group">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 group-hover:from-cyan-300 group-hover:to-blue-400 transition-all duration-300">Recursion</span>
+                    <span class="text-cyan-400 blink ml-1 text-3xl leading-none">_</span>
+                </a>
+                <div class="flex items-center space-x-4 md:space-x-6 text-sm font-medium text-slate-300">
                     {% if user.is_authenticated %}
-                        <span class="hidden md:inline">Hello, <span class="font-semibold text-white">{{ user.username }}</span></span>
-                        <a href="{% url 'dashboard' %}" class="hover:text-white transition-colors">Dashboard</a>
-                        <a href="{% url 'quiz_list' %}" class="hover:text-white transition-colors">Quizzes</a>
+                        <span class="hidden md:inline text-slate-400">Hello, <span class="font-bold text-cyan-400">{{ user.username }}</span></span>
+                        <a href="{% url 'dashboard' %}" class="hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">Dashboard</a>
+                        <a href="{% url 'quiz_list' %}" class="hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">Quizzes</a>
                         {% if user.is_staff %}
-                            <a href="{% url 'admin:index' %}" class="text-yellow-500 hover:text-yellow-400 font-medium hidden md:inline">Admin</a>
+                            <a href="{% url 'admin:index' %}" class="text-yellow-400 hover:text-yellow-300 hover:drop-shadow-[0_0_8px_rgba(250,204,21,0.5)] transition-all hidden md:inline">Admin</a>
                         {% endif %}
-                        <form action="{% url 'logout' %}" method="post" class="inline">
+                        <form action="{% url 'logout' %}" method="post" class="inline pl-2 border-l border-slate-700/50">
                             {% csrf_token %}
-                            <button type="submit" class="bg-gray-800 hover:bg-gray-700 text-white px-3 md:px-4 py-1.5 rounded-md transition-colors border border-gray-700">Logout</button>
+                            <button type="submit" class="text-red-400 hover:text-red-300 hover:drop-shadow-[0_0_8px_rgba(248,113,113,0.5)] transition-all uppercase tracking-wider text-xs font-bold">Logout</button>
                         </form>
                     {% else %}
-                        <a href="{% url 'login' %}" class="hover:text-white transition-colors">Login</a>
-                        <a href="{% url 'signup' %}" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-md transition-colors font-medium">Sign Up</a>
+                        <a href="{% url 'login' %}" class="hover:text-white transition-all">Login</a>
+                        <a href="{% url 'signup' %}" class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-5 py-2 rounded-xl transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transform hover:-translate-y-0.5">Sign Up</a>
                     {% endif %}
                 </div>
             </nav>
         </div>
     </header>
     
-    <main class="flex-grow container mx-auto px-4 max-w-5xl py-8 md:py-12">
+    <main class="flex-grow container mx-auto px-4 max-w-5xl py-8 md:py-12 relative z-10">
         {% block content %}
         {% endblock content %}
     </main>
 
-    <footer class="bg-gray-100 border-t border-gray-200 mt-auto py-6">
-        <div class="container mx-auto px-4 text-center text-gray-500 text-sm font-medium">
-            &copy; 2026 Recursion by RSCOE. Built with Django & Tailwind.
+    <footer class="mt-auto py-8 relative z-10 border-t border-slate-800 backdrop-blur-md bg-slate-900/50">
+        <div class="container mx-auto px-4 text-center text-slate-500 text-sm font-medium tracking-wide">
+            &copy; 2026 <span class="text-slate-400 font-semibold">Recursion by RSCOE</span>. Powered by perfect logic.
         </div>
     </footer>
 </body>
