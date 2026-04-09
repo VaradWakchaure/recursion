@@ -1,0 +1,50 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+&rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+&rsaquo; <a href="{% url opts|admin_urlname:'change' object.pk %}">{{ object|truncatewords:"18" }}</a>
+&rsaquo; Import Questions
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h2>Import Questions for Quiz: {{ object.title }}</h2>
+    <p>Paste questions using the <strong>Aiken format</strong>. Each question must be followed by its choices (starting with A., B., C., etc.) and then an ANSWER line.</p>
+    
+    <div style="background-color: #f8f8f8; padding: 10px; border-left: 4px solid #447e9b; margin-bottom: 20px;">
+        <h4 style="margin-top: 0;">Example format:</h4>
+        <pre style="margin: 0; font-family: monospace;">What is the capital of Maharashtra?
+A. Mumbai
+B. Pune
+C. Nagpur
+D. Nashik
+ANSWER: A
+
+In Python, which keyword is used to define a function?
+A) def
+B) function
+C) func
+D) define
+ANSWER: A</pre>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div>
+                <label for="questions_text" class="required">Questions (Aiken Format):</label>
+                <textarea name="questions_text" id="questions_text" rows="20" style="width: 100%; max-width: 800px; font-family: monospace;" required></textarea>
+            </div>
+        </div>
+        <div class="submit-row" style="text-align: left; padding-left: 0;">
+            <input type="submit" value="Import Questions" class="default" name="_save">
+            <a href="{% url opts|admin_urlname:'change' object.pk %}" class="button cancel-link">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
